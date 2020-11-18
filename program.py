@@ -32,5 +32,5 @@ class Program:
             pygame.display.set_caption('Sorting Visualization')
             self.window.fill(color.BLACK)
 
-            self.algo.merge_sort()
+            self.algo.heap_sort()
             pygame.display.update()

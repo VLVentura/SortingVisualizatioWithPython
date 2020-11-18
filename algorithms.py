@@ -132,7 +132,7 @@ class Algorithm:
             self.merge_sort(arr, mid + 1, high)
             self.merge(arr, low, mid, high)
             
-            self.draw()
+            self.draw() 
 
     def partition(self, low, high):
         pygame.display.set_caption('Sorting Visualization - Quick Sort')
@@ -169,21 +169,54 @@ class Algorithm:
             self.quick_sort(low, part - 1)
             self.quick_sort(part + 1, high)
 
-    def heap_sort(self):
-        pass
+    def heapify(self, arr, n, i):
+        largest = i
+        l = 2 * i + 1
+        r = 2 * i + 2
 
-    def counting_sort(self):
-        pass
+        if l < n and arr[largest] < arr[l]:
+            largest = l
+        
+        if r < n and arr[largest] < arr[r]:
+            largest = r
+        
+        self.window.fill(color.BLACK)
+        self.draw()
 
-    def radix_sort(self):
-        pass
+        if largest != i:
+            self.draw(self.index_dict[arr[i]], self.index_dict[arr[largest]])
+            pygame.time.delay(100)
 
-    def bucket_sort(self):
-        pass
+            arr[i], arr[largest] = arr[largest], arr[i]
 
-    def shell_sort(self):
-        pass
-    
+            self.window.fill(color.BLACK)
+            self.draw()
+
+            self.heapify(arr, n, largest)
+
+    def heap_sort(self, arr=None):
+        if arr == None:
+            arr = self.vector
+
+        n = len(arr)
+
+        for i in range(n // 2 - 1, -1, -1):
+            self.heapify(arr, n , i)
+        
+        self.window.fill(color.BLACK)
+        self.draw()
+
+        for i in range(n - 1, 0, -1):
+            self.draw(self.index_dict[arr[i]], self.index_dict[arr[0]])
+            pygame.time.delay(100)
+
+            arr[i], arr[0] = arr[0], arr[i]
+
+            self.window.fill(color.BLACK)
+            self.draw()
+
+            self.heapify(arr, i, 0)
+                
     def draw(self, blue=None, red=None):
         for i in range(len(self.vector)):
             if i == blue:
