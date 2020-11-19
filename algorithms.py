@@ -12,19 +12,41 @@ class Algorithm:
 
         self.minSize = 50
         self.maxSize = util.WINDOW_HEIGHT
+
+        self.algos = {
+            'selection': self.selection_sort,
+            'bubble': self.bubble_sort,
+            'insertion': self.insertion_sort,
+            'merge': self.merge_sort,
+            'quick': self.quick_sort,
+            'heap': self.heap_sort
+        }
         
         self.barSize = util.BAR_SIZE
         self.vector =  [randint(self.minSize, self.maxSize) for i in range(util.N_BARS + 1)]
         self.index_dict = self.create_dict()
 
-    def sort(self, algorithm, **kwargs):
-        pass
+    def sort(self, algorithm):
+        self.algos[algorithm]()
+        run = True
+        while run:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        run = False
 
     def selection_sort(self):
         pygame.display.set_caption('Sorting Visualization - Selection Sort')
         for i in range(len(self.vector)):
             minIndex = i
             for j in range(i+1, len(self.vector)):
+                
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        exit()
+
                 if self.vector[minIndex] > self.vector[j]:
                     minIndex = j
 
@@ -38,11 +60,16 @@ class Algorithm:
 
         self.draw()
     
-    def bubble_sort(self, recursive=False):
+    def bubble_sort(self):
         pygame.display.set_caption('Sorting Visualization - Bubble Sort')
         swapped = False
         for i in range(len(self.vector)):
             for j in range(0, len(self.vector) - 1):
+                
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        exit()
+
                 if self.vector[j] > self.vector[j+1]:
                     self.window.fill(color.BLACK)
                     self.draw(j, j + 1)
@@ -58,7 +85,7 @@ class Algorithm:
 
         self.draw()
 
-    def insertion_sort(self, recursive=False):
+    def insertion_sort(self):
         pygame.display.set_caption('Sorting Visualization - Insertion Sort')
         for i in range(1, len(self.vector)):
             j = i - 1
@@ -67,6 +94,11 @@ class Algorithm:
             self.draw()
 
             while j>= 0 and key < self.vector[j]:
+                
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        exit()
+
                 self.draw(j, j + 1)
                 pygame.time.delay(50)
                 
@@ -92,6 +124,10 @@ class Algorithm:
         i = j = 0
         k = low
 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+
         self.draw()
 
         while i < n1 and j < n2:
@@ -105,7 +141,7 @@ class Algorithm:
                 arr[k] = right[j]
                 j += 1
             k += 1
-
+            
             self.window.fill(color.BLACK)
             self.draw()
 
@@ -123,6 +159,7 @@ class Algorithm:
         self.draw()
 
     def merge_sort(self, arr=None, low=0, high=util.N_BARS):
+        pygame.display.set_caption('Sorting Visualization - Merge Sort')
         if arr == None:
             arr = self.vector
 
@@ -135,13 +172,17 @@ class Algorithm:
             self.draw() 
 
     def partition(self, low, high):
-        pygame.display.set_caption('Sorting Visualization - Quick Sort')
         i = low - 1
         pivot = self.vector[high]
 
         self.draw()
 
         for j in range(low, high):
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+
             if self.vector[j] <= pivot:
                 i = i + 1
                 self.draw(i, j)
@@ -180,6 +221,10 @@ class Algorithm:
         if r < n and arr[largest] < arr[r]:
             largest = r
         
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+
         self.window.fill(color.BLACK)
         self.draw()
 
@@ -195,6 +240,7 @@ class Algorithm:
             self.heapify(arr, n, largest)
 
     def heap_sort(self, arr=None):
+        pygame.display.set_caption('Sorting Visualization - Heap Sort')
         if arr == None:
             arr = self.vector
 
